@@ -1,8 +1,10 @@
-import express from "express";
-import { getAllProducts } from "../controllers/product_controller.mjs";
+import express from 'express';
+import { getProducts, getProductsByCategory, getProductById } from '../controllers/product_controller.mjs';
 
 const router = express.Router();
 
-router.get("/", getAllProducts); // Make sure this route exists
+router.get('/', getProducts);
+router.get('/category/:category', getProductsByCategory);
+router.get('/:id', getProductById);
 
 export default router;

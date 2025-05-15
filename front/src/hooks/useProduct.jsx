@@ -1,25 +1,33 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from 'react';
 
-export default function useProducts() {
+const useProducts = () => {
   const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch("/api/products")
-      .then((res) => {
-        if (!res.ok) throw new Error("Failed to load products");
-        return res.json();
-      })
-      .then((data) => {
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/api/products');
+        if (!response.ok) throw new Error('Network response was not ok');
+        const data = await response.json();
         setProducts(data);
+        
+        // Extract unique categories
+        const uniqueCategories = [...new Set(data.map(product => product.category))];
+        setCategories(uniqueCategories);
+      } catch (err) {
+        setError(err.message);
+      } finally {
         setLoading(false);
-      })
-      .catch(() => {
-        setError(true);
-        setLoading(false);
-      });
+      }
+    };
+
+    fetchProducts();
   }, []);
 
-  return { products, loading, error };
-}
+  return { products, categories, loading, error };
+};
+
+export default useProducts;

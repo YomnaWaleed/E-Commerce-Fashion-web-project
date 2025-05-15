@@ -1,16 +1,13 @@
 import { useNavigate } from "react-router-dom";
 
-function BackButton() {
+export default function BackButton() {
   const navigate = useNavigate();
-
   return (
-    <button
+    <button 
       onClick={() => navigate(-1)}
-      className="px-4 py-2 bg-gray-300 hover:bg-gray-400 text-gray-800 rounded-full mb-4"
+      className="flex items-center text-blue-600 hover:text-blue-800"
     >
-      ←
+      ← Back
     </button>
   );
 }
-
-export default BackButton;

@@ -1,25 +1,21 @@
-import useProducts from "../hooks/useProduct";
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 
-export default function ProductList() {
-  const { products, loading, error } = useProducts();
-
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error loading products.</p>;
-
+const Products = ({ products }) => {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 p-4">
-      {products.map((product) => (
-        <Link
-          key={product._id}
-          to={`/product/${product._id}`}
-          className="border p-4 rounded shadow bg-white"
-        >
-          <img src={product.image} alt={product.name} className="h-40 w-full object-contain" />
-          <h2 className="text-lg font-bold">{product.name}</h2>
-          <p>{product.price} EGP</p>
-        </Link>
+    <div className="products-container">
+      {products.map(product => (
+        <div key={product.id} className="product-card">
+          <Link to={`/product/${product.id}`}>
+            <img src={product.image} alt={product.name} className="product-image" />
+            <h3>{product.name}</h3>
+            <p>Category: {product.category}</p>
+            <p>Color: {product.color}</p>
+            <p>Price: ${product.price}</p>
+          </Link>
+        </div>
       ))}
     </div>
   );
-}
+};
+
+export default Products;
