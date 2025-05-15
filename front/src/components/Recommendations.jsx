@@ -1,12 +1,23 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import useProducts from "../hooks/useProduct";
 import BackButton from "../assets/BackButton";
 
 export default function Recommendations() {
-  const { products } = useProducts();
-  const outfits = products.filter(
-    (p) => p.category === "Dresses" || p.category === "Tops"
-  );
+  const [outfits, setOutfits] = useState([]);
+
+  useEffect(() => {
+    const fetchRecommendations = async () => {
+      try {
+        const res = await fetch("/api/recommendations");
+        const data = await res.json();
+        setOutfits(data);
+      } catch (error) {
+        console.error("Failed to fetch recommendations:", error);
+      }
+    };
+
+    fetchRecommendations();
+  }, []);
 
   return (
     <div className="p-4 max-w-6xl mx-auto">
@@ -19,8 +30,8 @@ export default function Recommendations() {
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {outfits.map((item) => (
           <Link
-            to={`/product/${item.id}`}
-            key={item.id}
+            to={`/product/${item._id}`}
+            key={item._id}
             className="border rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-shadow bg-white"
           >
             <img
