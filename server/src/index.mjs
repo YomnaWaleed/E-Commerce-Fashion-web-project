@@ -22,7 +22,7 @@ app.use(bodyParser.json());
 app.use(cors()); 
 
 const PORT = process.env.PORT || 5000;
-const MONGOURL = process.env.MONGO_URL;
+const MONGOURL = process.env.MONGO_URL ||'mongodb://localhost:27017/Fashion';
 
 await connectDB(MONGOURL);
 
