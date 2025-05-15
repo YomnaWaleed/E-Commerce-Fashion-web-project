@@ -4,6 +4,8 @@ import dotenv from 'dotenv';
 import productRoutes from './routes/product_routes.mjs';
 import cors from 'cors';
 import recommendationRoutes from './routes/recommendation_routes.mjs';
+import cartRoutes from './routes/cart_routes.mjs';
+
 
 dotenv.config();
 
@@ -22,6 +24,7 @@ mongoose.connect(process.env.MONGO_URL)
 // Routes
 app.use('/api/products', productRoutes);
 app.use('/api/recommendations', recommendationRoutes);
+app.use('/api/cart', cartRoutes);
 
 
 // Start server
